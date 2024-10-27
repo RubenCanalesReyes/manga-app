@@ -6,6 +6,7 @@ const addMangaBtn = document.getElementById("add-manga-btn");
 const submitManga = document.getElementById("submit-manga");
 const mangaTitleInput = document.getElementById("manga-title");
 const mangaDescriptionInput = document.getElementById("manga-description");
+const coverInput = document.getElementById("manga-cover");
 
 // Función para mostrar los mangas en la lista
 function displayMangas() {
@@ -15,6 +16,7 @@ function displayMangas() {
         mangaItem.className = "manga-item";
         mangaItem.innerHTML = `
             <h3>${manga.title}</h3>
+            <img src="mangas/${manga.title}/${manga.cover}" alt="${manga.title} Cover" class="cover-image">
             <p>${manga.description}</p>
         `;
         mangaList.appendChild(mangaItem);
@@ -35,23 +37,27 @@ closeModal.onclick = function() {
 submitManga.onclick = async function() {
     const title = mangaTitleInput.value;
     const description = mangaDescriptionInput.value;
+    const coverFile = coverInput.files[0];
+
+    // Crear un FormData para enviar datos y archivo
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('cover', coverFile); // Agregar la portada
 
     // Enviar datos al servidor
     try {
         const response = await fetch('/api/add-manga', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ title, description }),
+            body: formData,
         });
 
         if (response.ok) {
-            // Actualizar la lista de mangas
-            mangas.push({ title, description });
+            mangas.push({ title, description, cover: coverFile.name });
             displayMangas();
             mangaTitleInput.value = '';
             mangaDescriptionInput.value = '';
+            coverInput.value = ''; // Limpiar el campo de archivo
             modal.style.display = "none";
             alert('Manga agregado con éxito');
         } else {
@@ -60,12 +66,5 @@ submitManga.onclick = async function() {
     } catch (error) {
         console.error('Error:', error);
         alert('Error al comunicarse con el servidor');
-    }
-}
-
-// Cerrar el modal si se hace clic fuera de él
-window.onclick = function(event) {
-    if (event.target === modal) {
-        modal.style.display = "none";
     }
 }

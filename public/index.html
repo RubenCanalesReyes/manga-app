@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mangas Online</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
     <header>
         <nav class="navbar">
@@ -49,6 +47,7 @@
             <h2>Agregar Nuevo Manga</h2>
             <input type="text" id="manga-title" placeholder="Título" required>
             <textarea id="manga-description" placeholder="Descripción" required></textarea>
+            <input type="file" id="manga-cover" accept="image/*" required>
             <button id="submit-manga">Agregar Manga</button>
         </div>
     </div>
@@ -59,5 +58,4 @@
 
     <script src="script.js"></script>
 </body>
-
 </html>

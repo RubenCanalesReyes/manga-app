@@ -74,6 +74,12 @@ header {
     text-align: center;
 }
 
+.cover-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
 footer {
     background-color: #333;
     color: white;
